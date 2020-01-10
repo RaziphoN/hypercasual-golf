@@ -8,13 +8,23 @@ public class SurfaceEditorEditor : Editor {
 
     void OnSceneGUI()
     {
-        if (m_creator.autoUpdate && Event.current.type == EventType.Repaint)
-        {
-            m_creator.UpdateSurface();
-        }
+        //if (m_creator.autoUpdate && Event.current.type == EventType.Repaint)
+        //{
+        //    m_creator.UpdateSurface();
+        //}
     }
 
-    void OnEnable()
+	public override void OnInspectorGUI()
+	{
+		base.OnInspectorGUI();
+
+		if (GUILayout.Button("Generate"))
+		{
+			m_creator.UpdateSurface();
+		}
+	}
+
+	void OnEnable()
     {
         m_creator = (Surface2DCreator)target;
     }

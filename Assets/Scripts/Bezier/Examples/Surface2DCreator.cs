@@ -29,63 +29,81 @@ public class Surface2DCreator : MonoBehaviour
 
     Mesh CreateSurface(Vector2[] points)
     {
-        Vector3[] verts = new Vector3[points.Length * 2];
-        Vector2[] uvs = new Vector2[verts.Length];
-        int numTris = 2 * (points.Length - 1);
-        int[] tris = new int[numTris * 3];
-        int vertIndex = 0;
-        int triIndex = 0;
+        //Vector3[] verts = new Vector3[points.Length * 2];
+        //Vector2[] uvs = new Vector2[verts.Length];
+        //int numTris = 2 * (points.Length - 1);
+        //int[] tris = new int[numTris * 3];
+        //int vertIndex = 0;
+        //int triIndex = 0;
 
-        for (int i = 0; i < points.Length; i++)
-        {
-            //Vector2 forward = Vector2.zero;
-            //if (i < points.Length - 1)
-            //{
-            //    forward += points[(i + 1)%points.Length] - points[i];
-            //}
-            //if (i > 0)
-            //{
-            //    forward += points[i] - points[(i - 1 + points.Length)%points.Length];
-            //}
+		Vector3[] vertices = new Vector3[points.Length];
+		int[] tris = new int[(vertices.Length - 2) * 3];
 
-            //forward.Normalize();
+		for (int i = 0; i < points.Length; ++i)
+			vertices[i] = new Vector3(points[i].x, points[i].y, 0f);
 
-			// vertices
-			{
-				// Vector2 left = new Vector2(-forward.y, forward.x);
+		var triangles = Scripts.Utility.Triangulator.Triangulate(vertices, Vector3.back);
 
-				verts[vertIndex] = points[i];
-				verts[vertIndex + 1] = new Vector2(points[i].x, surfaceY);
-			}
+		int triangleIndex = 0;
+		for (int i = 0; i < triangles.Length; ++i)
+		{
+			tris[triangleIndex] = triangles[i].a;
+			tris[triangleIndex + 1] = triangles[i].b;
+			tris[triangleIndex + 2] = triangles[i].c;
 
-			// uv
-			{
-				float completionPercent = i / (float)(points.Length - 1);
-				float v = 1 - Mathf.Abs(2 * completionPercent - 1);
+			triangleIndex += 3;
+		}
 
-				uvs[vertIndex] = new Vector2(0, v);
-				uvs[vertIndex + 1] = new Vector2(1, v);
-			}
+   //     for (int i = 0; i < points.Length; i++)
+   //     {
+   //         //Vector2 forward = Vector2.zero;
+   //         //if (i < points.Length - 1)
+   //         //{
+   //         //    forward += points[(i + 1)%points.Length] - points[i];
+   //         //}
+   //         //if (i > 0)
+   //         //{
+   //         //    forward += points[i] - points[(i - 1 + points.Length)%points.Length];
+   //         //}
 
-            if (i < points.Length - 1)
-            {
-				tris[triIndex] = vertIndex;
-                tris[triIndex + 1] = (vertIndex + 2) % verts.Length;
-				tris[triIndex + 2] = vertIndex + 1;
+   //         //forward.Normalize();
 
-				tris[triIndex + 3] = vertIndex + 1;
-                tris[triIndex + 4] = (vertIndex + 2) % verts.Length;
-                tris[triIndex + 5] = (vertIndex + 3)  % verts.Length;
-            }
+			//// vertices
+			//{
+			//	// Vector2 left = new Vector2(-forward.y, forward.x);
 
-            vertIndex += 2;
-            triIndex += 6;
-        }
+			//	verts[vertIndex] = points[i];
+			//	verts[vertIndex + 1] = new Vector2(points[i].x, surfaceY);
+			//}
+
+			//// uv
+			//{
+			//	float completionPercent = i / (float)(points.Length - 1);
+			//	float v = 1 - Mathf.Abs(2 * completionPercent - 1);
+
+			//	uvs[vertIndex] = new Vector2(0, v);
+			//	uvs[vertIndex + 1] = new Vector2(1, v);
+			//}
+
+   //         if (i < points.Length - 1)
+   //         {
+			//	tris[triIndex] = vertIndex;
+   //             tris[triIndex + 1] = (vertIndex + 2) % verts.Length;
+			//	tris[triIndex + 2] = vertIndex + 1;
+
+			//	tris[triIndex + 3] = vertIndex + 1;
+   //             tris[triIndex + 4] = (vertIndex + 2) % verts.Length;
+   //             tris[triIndex + 5] = (vertIndex + 3)  % verts.Length;
+   //         }
+
+   //         vertIndex += 2;
+   //         triIndex += 6;
+   //     }
 
         Mesh mesh = new Mesh();
-        mesh.vertices = verts;
+        mesh.vertices = vertices;
         mesh.triangles = tris;
-        mesh.uv = uvs;
+        // mesh.uv = uvs;
 
         return mesh;
     }

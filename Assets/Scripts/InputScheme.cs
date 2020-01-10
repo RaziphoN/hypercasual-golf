@@ -54,8 +54,9 @@ namespace Scripts
 					}
 
 					diff *= forceMultiplier;
-
 					m_rigid.AddForce(diff);
+
+					Profile.instance.strokes++;
 				}
 			}
 		}

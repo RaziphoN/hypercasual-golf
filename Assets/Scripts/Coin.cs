@@ -9,7 +9,7 @@ namespace Scripts
 		{
 			if (collision.gameObject.tag == "Player")
 			{
-				Profile.instance.IncrementScore();
+				Profile.instance.score++;
 				Destroy(gameObject);
 			}
 		}

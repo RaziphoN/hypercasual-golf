@@ -28,6 +28,7 @@ public class GolfHole : MonoBehaviour
 
 	private void OnVictoryEnd()
 	{
+		Profile.instance.OnLevelComplete();
 		UI.instance.ShowVictory(false);
 
 		var nextSceneIdx = (SceneManager.GetActiveScene().buildIndex + 1) % SceneManager.sceneCountInBuildSettings;

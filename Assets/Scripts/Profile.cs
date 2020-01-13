@@ -1,52 +1,60 @@
 ﻿using UnityEngine;
 
-public class Profile : MonoBehaviour
+namespace Scripts
 {
-	public delegate void IntValueChanged(int value);
-
-	public event IntValueChanged onScoreChanged;
-	public event IntValueChanged onStrokesChanged;
-
-	public static Profile instance;
-
-
-	public int score
+	public class Profile : MonoBehaviour
 	{
-		get { return m_score; }
-		set
+		public delegate void IntValueChanged(int value);
+
+		public event IntValueChanged onScoreChanged;
+		public event IntValueChanged onStrokesChanged;
+
+		public static Profile instance;
+
+
+		public int score
 		{
-			if (m_score != value)
+			get { return m_score; }
+			set
 			{
-				m_score = Mathf.Max(0, value);
-				onScoreChanged?.Invoke(m_score);
+				if (m_score != value)
+				{
+					m_score = Mathf.Max(0, value);
+					onScoreChanged?.Invoke(m_score);
+				}
 			}
 		}
-	}
 
-	public int strokes
-	{
-		get { return m_strokes; }
-		set
+		public int strokes
 		{
-			if (m_strokes != value)
+			get { return m_strokes; }
+			set
 			{
-				m_strokes = Mathf.Max(0, value);
-				onStrokesChanged?.Invoke(m_strokes);
+				if (m_strokes != value)
+				{
+					m_strokes = Mathf.Max(0, value);
+					onStrokesChanged?.Invoke(m_strokes);
+				}
 			}
 		}
-	}
 
-	private int m_score = 0;
-	private int m_strokes = 0;
+		private int m_score = 0;
+		private int m_strokes = 0;
 
-	private void Awake()
-	{
-		instance = this;
-	}
+		private void Awake()
+		{
+			instance = this;
+		}
 
-	public void OnLevelComplete()
-	{
-		score = 0;
-		strokes = 0;
+		private void OnDestroy()
+		{
+
+		}
+
+		public void OnLevelComplete()
+		{
+			score = 0;
+			strokes = 0;
+		}
 	}
 }

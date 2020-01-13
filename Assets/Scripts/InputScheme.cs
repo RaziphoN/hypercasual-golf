@@ -4,8 +4,12 @@ namespace Scripts
 {
 	[RequireComponent(typeof(Rigidbody2D))]
 	[RequireComponent(typeof(Collider2D))]
+	[RequireComponent(typeof(AudioSource))]
 	public class InputScheme : MonoBehaviour
 	{
+		public delegate void OnObjectStroke(GameObject obj);
+		public event OnObjectStroke onObjectStroke;
+
 		[Header("Options")]
 		public float forceMultiplier = 1.3f;
 		public bool reversedInput = false;
@@ -20,6 +24,8 @@ namespace Scripts
 		public bool groundConstraint;
 		public LayerMask groundMask;
 
+
+		private AudioSource m_audio;
 		private Rigidbody2D m_rigid;
 		private Collider2D m_collider;
 		private ContactFilter2D m_filter = new ContactFilter2D();
@@ -28,6 +34,7 @@ namespace Scripts
 		private void Awake()
 		{
 			m_rigid = GetComponent<Rigidbody2D>();
+			m_audio = GetComponent<AudioSource>();
 
 			m_collider = GetComponent<Collider2D>();
 			m_filter.layerMask = groundMask;
@@ -56,7 +63,10 @@ namespace Scripts
 					diff *= forceMultiplier;
 					m_rigid.AddForce(diff);
 
-					Profile.instance.strokes++;
+					m_audio.Play();
+
+					if (onObjectStroke != null)
+						onObjectStroke.Invoke(gameObject);
 				}
 			}
 		}

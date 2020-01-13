@@ -1,37 +1,49 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GolfHole : MonoBehaviour
+namespace Scripts
 {
-	public float maxSpeedOfBall = 2f;
-	public float delayBeforeNextLevel = 1f;
-
-	private void OnTriggerStay2D(Collider2D collision)
+	[RequireComponent(typeof(AudioSource))]
+	public class GolfHole : MonoBehaviour
 	{
-		if (collision.gameObject.tag == "Player")
-		{
-			var rigid = collision.GetComponent<Rigidbody2D>();
+		public float maxSpeedOfBall = 2f;
+		public float delayBeforeNextLevel = 1f;
 
-			if (rigid.velocity.magnitude <= maxSpeedOfBall)
+		private AudioSource m_audio;
+
+		private void Awake()
+		{
+			m_audio = GetComponent<AudioSource>();
+		}
+
+		private void OnTriggerStay2D(Collider2D collision)
+		{
+			if (collision.gameObject.tag == "Player")
 			{
-				Destroy(collision.gameObject);
-				Invoke("OnVictoryEnd", delayBeforeNextLevel);
-				OnVictory();
+				var rigid = collision.GetComponent<Rigidbody2D>();
+
+				if (rigid.velocity.magnitude <= maxSpeedOfBall)
+				{
+					Destroy(collision.gameObject);
+					Invoke("OnVictoryEnd", delayBeforeNextLevel);
+					OnVictory();
+				}
 			}
 		}
-	}
 
-	private void OnVictory()
-	{
-		UI.instance.ShowVictory(true);
-	}
+		private void OnVictory()
+		{
+			m_audio.Play();
+			UI.instance.ShowVictory(true);
+		}
 
-	private void OnVictoryEnd()
-	{
-		Profile.instance.OnLevelComplete();
-		UI.instance.ShowVictory(false);
+		private void OnVictoryEnd()
+		{
+			Profile.instance.OnLevelComplete();
+			UI.instance.ShowVictory(false);
 
-		var nextSceneIdx = (SceneManager.GetActiveScene().buildIndex + 1) % SceneManager.sceneCountInBuildSettings;
-		SceneManager.LoadScene(nextSceneIdx);
+			var nextSceneIdx = (SceneManager.GetActiveScene().buildIndex + 1) % SceneManager.sceneCountInBuildSettings;
+			SceneManager.LoadScene(nextSceneIdx);
+		}
 	}
 }

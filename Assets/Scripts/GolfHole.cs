@@ -1,20 +1,16 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
+using Scripts.Framework.Audio;
+
 namespace Scripts
 {
 	[RequireComponent(typeof(AudioSource))]
 	public class GolfHole : MonoBehaviour
 	{
+		public readonly string victorySfxName = "applause";
 		public float maxSpeedOfBall = 2f;
 		public float delayBeforeNextLevel = 1f;
-
-		private AudioSource m_audio;
-
-		private void Awake()
-		{
-			m_audio = GetComponent<AudioSource>();
-		}
 
 		private void OnTriggerStay2D(Collider2D collision)
 		{
@@ -33,7 +29,7 @@ namespace Scripts
 
 		private void OnVictory()
 		{
-			m_audio.Play();
+			AudioManager.instance.Play(victorySfxName);
 			UI.instance.ShowVictory(true);
 		}
 

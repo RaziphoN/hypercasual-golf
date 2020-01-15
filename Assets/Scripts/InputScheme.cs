@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+using Scripts.Framework.Audio;
+
 namespace Scripts
 {
 	[RequireComponent(typeof(Rigidbody2D))]
@@ -14,6 +16,8 @@ namespace Scripts
 		public float forceMultiplier = 1.3f;
 		public bool reversedInput = false;
 
+		public readonly string swingSfxName = "swing";
+
 		[Header("Input Contraints")]
 
 		[Tooltip("if enabled, you can't push it's object while it's moving faster than 'maxVelocityToAllowInput'")]
@@ -24,8 +28,6 @@ namespace Scripts
 		public bool groundConstraint;
 		public LayerMask groundMask;
 
-
-		private AudioSource m_audio;
 		private Rigidbody2D m_rigid;
 		private Collider2D m_collider;
 		private ContactFilter2D m_filter = new ContactFilter2D();
@@ -34,8 +36,6 @@ namespace Scripts
 		private void Awake()
 		{
 			m_rigid = GetComponent<Rigidbody2D>();
-			m_audio = GetComponent<AudioSource>();
-
 			m_collider = GetComponent<Collider2D>();
 			m_filter.layerMask = groundMask;
 		}
@@ -63,7 +63,7 @@ namespace Scripts
 					diff *= forceMultiplier;
 					m_rigid.AddForce(diff);
 
-					m_audio.Play();
+					AudioManager.instance.Play(swingSfxName);
 
 					if (onObjectStroke != null)
 						onObjectStroke.Invoke(gameObject);

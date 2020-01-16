@@ -5,9 +5,9 @@ using Scripts.Framework.Utils;
 
 namespace Scripts
 {
-	public class UI : MonoBehaviour
+	public class UserInterface : MonoBehaviour
 	{
-		public static UI instance;
+		public static UserInterface instance;
 
 		private Text m_score;
 		private Text m_strokes;

@@ -30,13 +30,13 @@ namespace Scripts
 		private void OnVictory()
 		{
 			AudioManager.instance.Play(victorySfxName);
-			UI.instance.ShowVictory(true);
+			UserInterface.instance.ShowVictory(true);
 		}
 
 		private void OnVictoryEnd()
 		{
 			Profile.instance.OnLevelComplete();
-			UI.instance.ShowVictory(false);
+			UserInterface.instance.ShowVictory(false);
 
 			var nextSceneIdx = (SceneManager.GetActiveScene().buildIndex + 1) % SceneManager.sceneCountInBuildSettings;
 			SceneManager.LoadScene(nextSceneIdx);

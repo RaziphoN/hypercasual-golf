@@ -35,8 +35,6 @@ namespace Scripts
 						Create();
 				}
 
-				Physics.Simulate(Time.deltaTime);
-
 				if (InputUtility.IsTouchedThisFrame())
 				{
 					m_touchPoints[0] = InputUtility.GetTouchPosition();

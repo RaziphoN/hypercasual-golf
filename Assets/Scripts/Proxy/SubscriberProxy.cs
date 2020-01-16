@@ -4,14 +4,14 @@ namespace Scripts.Details
 {
 	public class SubscriberProxy : MonoBehaviour
 	{
-		UI m_ui;
+		UserInterface m_ui;
 		InputScheme m_input;
 		Profile m_profile;
 
 		private void Start()
 		{
 			m_input = FindObjectOfType<InputScheme>();
-			m_ui = UI.instance;
+			m_ui = UserInterface.instance;
 			m_profile = Profile.instance;
 
 			Subscribe();

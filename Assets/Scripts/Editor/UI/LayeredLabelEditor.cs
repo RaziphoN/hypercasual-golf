@@ -19,8 +19,9 @@ namespace Scripts.Editors.UI
 		{
 			EditorGUI.BeginChangeCheck();
 
-			EditorGUILayout.HelpBox("Preffered width: " + (m_target.layer1.preferredWidth + (-m_target.offset.x) * 2).ToString()
-								+ "\nPreffered height: " + (m_target.layer1.preferredHeight + m_target.offset.y * 2).ToString(), MessageType.Info);
+			var size = m_target.GetPrefferedSize();
+			EditorGUILayout.HelpBox("Preffered width: " + (size.x).ToString()
+								+ "\nPreffered height: " + (size.y).ToString(), MessageType.Info);
 
 			base.OnInspectorGUI();
 

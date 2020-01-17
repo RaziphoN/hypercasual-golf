@@ -7,11 +7,15 @@ namespace Scripts.UI
 {
 	public class LayeredLabel : MonoBehaviour
 	{
+		public bool automaticResize = true;
+
 		public string text;
 
 		public Font font;
 		public int fontSize;
 		public bool richText;
+		public bool bestFit;
+		public Vector2Int bestFitSizeConstraint;
 
 		public Vector2 offset;
 
@@ -44,6 +48,10 @@ namespace Scripts.UI
 			fontSize = layer1.fontSize;
 			text = layer1.text;
 			richText = layer1.supportRichText;
+			bestFit = layer1.resizeTextForBestFit;
+
+			bestFitSizeConstraint.x = layer1.resizeTextMinSize;
+			bestFitSizeConstraint.y = layer1.resizeTextMaxSize;
 
 			offset.x = layer1.rectTransform.offsetMax.x;
 			offset.y = layer1.rectTransform.offsetMin.y;
@@ -63,9 +71,40 @@ namespace Scripts.UI
 			SetLayerColor(3, layer3Color);
 
 			SetFont(font);
-			SetFontSize(fontSize);
+			SetBestFit(bestFit);
+			SetBestFitConstraints(bestFitSizeConstraint);
+
+			if (!bestFit)
+			{
+				SetFontSize(fontSize);
+			}
+
 			SetRichText(richText);
 			SetText(text);
+
+			if (automaticResize)
+			{
+				ResizeToPreffered();
+			}
+		}
+
+		public void SetBestFit(bool enabled)
+		{
+			layer1.resizeTextForBestFit = enabled;
+			layer2.resizeTextForBestFit = enabled;
+			layer3.resizeTextForBestFit = enabled;
+		}
+
+		public void SetBestFitConstraints(Vector2Int constraints)
+		{
+			layer1.resizeTextMinSize = constraints.x;
+			layer1.resizeTextMaxSize = constraints.y;
+
+			layer2.resizeTextMinSize = constraints.x;
+			layer2.resizeTextMaxSize = constraints.y;
+
+			layer3.resizeTextMinSize = constraints.x;
+			layer3.resizeTextMaxSize = constraints.y;
 		}
 
 		public void SetOffset(float horizontal, float vertical)
@@ -132,6 +171,16 @@ namespace Scripts.UI
 			}
 		}
 
+		public Vector2 GetPrefferedSize()
+		{
+			Vector2 size = new Vector2();
+
+			size.x = layer1.preferredWidth + (-offset.x) * 2;
+			size.y = layer1.preferredHeight + offset.y * 2;
+
+			return size;
+		}
+
 		public int GetLayerCount()
 		{
 			return 3;
@@ -148,6 +197,14 @@ namespace Scripts.UI
 			verOffset.y = vertical;
 
 			layer.rectTransform.offsetMin = verOffset;
+		}
+
+		private void ResizeToPreffered()
+		{
+			var size = GetPrefferedSize();
+			var rectTransform = GetComponent<RectTransform>();
+
+			rectTransform.sizeDelta = size;
 		}
 	}
 }

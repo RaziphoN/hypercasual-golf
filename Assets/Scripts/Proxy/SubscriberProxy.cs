@@ -14,6 +14,8 @@ namespace Scripts.Details
 			m_ui = UserInterface.instance;
 			m_profile = Profile.instance;
 
+			m_ui.SetMaxScore(Coin.count);
+
 			Subscribe();
 		}
 

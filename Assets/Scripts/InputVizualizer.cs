@@ -28,8 +28,6 @@ namespace Scripts
 
 			m_renderer.startColor = startColor;
 			m_renderer.endColor = endColor;
-
-
 		}
 
 		private void LateUpdate()

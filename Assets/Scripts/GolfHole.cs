@@ -30,7 +30,9 @@ namespace Scripts
 		private void OnVictory()
 		{
 			AudioManager.instance.Play(victorySfxName);
-			UserInterface.instance.ShowVictory(true);
+
+			UserInterface.instance.SetCompletionPercent((float)(Profile.instance.score) / Coin.count); // a little bit hacky too
+			UserInterface.instance.ShowVictory(true); // as well as this code in this class, LMAO
 		}
 
 		private void OnVictoryEnd()

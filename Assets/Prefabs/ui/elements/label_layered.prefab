@@ -76,7 +76,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: VICTORIOUS!
+  m_Text: Lorem Ipsum
 --- !u!1 &5851137362147511467
 GameObject:
   m_ObjectHideFlags: 0
@@ -154,7 +154,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: VICTORIOUS!
+  m_Text: Lorem Ipsum
 --- !u!1 &6857747719768427019
 GameObject:
   m_ObjectHideFlags: 0
@@ -232,7 +232,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: VICTORIOUS!
+  m_Text: Lorem Ipsum
 --- !u!1 &8231779946307449672
 GameObject:
   m_ObjectHideFlags: 0
@@ -268,7 +268,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 440}
-  m_SizeDelta: {x: 262, y: 52}
+  m_SizeDelta: {x: 268, y: 52}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6008920568759016177
 MonoBehaviour:
@@ -282,7 +282,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 049ee2904ffdcc24dbf4c9c0b9bc5485, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: VICTORIOUS!
+  automaticResize: 1
+  text: Lorem Ipsum
   font: {fileID: 12800000, guid: 06fa749b828e54b47a304c7970f15b0a, type: 3}
   fontSize: 40
   richText: 1

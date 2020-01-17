@@ -141,6 +141,11 @@ namespace Scripts.UI
 			layer3.text = text;
 		}
 
+		public string GetText()
+		{
+			return layer1.text;
+		}
+
 		public void SetLayerColor(int layer, Color color)
 		{
 			switch (layer)

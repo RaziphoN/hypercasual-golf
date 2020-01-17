@@ -37,7 +37,6 @@ namespace Scripts.Framework.Audio
 				source.clip = audio.clip;
 				source.loop = audio.isLooping;
 				source.volume = audio.volumeOnStart;
-				source.name = audio.clip.name;
 				source.playOnAwake = audio.isPlayOnAwake;
 
 				if (audio.isPlayOnAwake)

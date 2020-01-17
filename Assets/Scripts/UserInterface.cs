@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 using Scripts.Framework.Utils;
@@ -20,6 +21,9 @@ namespace Scripts
 		private LayeredLabel m_victoryStrokes;
 		private StarWidget m_victoryStarWidget;
 
+		private Button m_victoryContinueButton;
+		private Button m_victoryReplayButton;
+
 		private void Awake()
 		{
 			instance = this;
@@ -33,11 +37,33 @@ namespace Scripts
 			m_victoryCoins = Hierarchy.FindComponentInChildDeep<LayeredLabel>(m_victory.gameObject, "coins_value");
 			m_victoryMaxCoins = Hierarchy.FindComponentInChildDeep<LayeredLabel>(m_victory.gameObject, "coins_max_value");
 			m_victoryStrokes = Hierarchy.FindComponentInChildDeep<LayeredLabel>(m_victory.gameObject, "strokes_value");
+			m_victoryContinueButton = Hierarchy.FindComponentInChildDeep<Button>(m_victory.gameObject, "continue_btn");
+			m_victoryReplayButton = Hierarchy.FindComponentInChildDeep<Button>(m_victory.gameObject, "replay_btn");
 		}
 
 		private void Start()
 		{
 			ShowVictory(false);
+		}
+
+		public void SubscribeOnContinue(UnityAction callback)
+		{
+			m_victoryContinueButton.onClick.AddListener(callback);
+		}
+
+		public void UnsubscribeOnContinue(UnityAction callback)
+		{
+			m_victoryContinueButton.onClick.RemoveListener(callback);
+		}
+
+		public void SubscribeOnReplay(UnityAction callback)
+		{
+			m_victoryReplayButton.onClick.AddListener(callback);
+		}
+
+		public void UnsubscribeOnReplay(UnityAction callback)
+		{
+			m_victoryReplayButton.onClick.RemoveListener(callback);
 		}
 
 		public void SetScore(int score)
@@ -65,8 +91,11 @@ namespace Scripts
 			m_ingame.gameObject.SetActive(!show);
 			m_victory.gameObject.SetActive(show);
 
-			m_victoryCoins.SetText(m_ingameCoins.text);
-			m_victoryStrokes.SetText(m_ingameStrokes.text);
+			if (show)
+			{
+				m_victoryCoins.SetText(m_ingameCoins.GetText());
+				m_victoryStrokes.SetText(m_ingameStrokes.GetText());
+			}
 		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Scripts.Details
 {
@@ -29,6 +30,8 @@ namespace Scripts.Details
 			m_input.onObjectStroke += OnObjectStroke;
 			m_profile.onScoreChanged += OnScoreChanged;
 			m_profile.onStrokesChanged += OnStrokesChanged;
+			m_ui.SubscribeOnContinue(OnContinueClicked);
+			m_ui.SubscribeOnReplay(OnReplayClicked);
 		}
 
 		private void Unsubscribe()
@@ -36,6 +39,8 @@ namespace Scripts.Details
 			m_input.onObjectStroke -= OnObjectStroke;
 			m_profile.onScoreChanged -= OnScoreChanged;
 			m_profile.onStrokesChanged -= OnStrokesChanged;
+			m_ui.UnsubscribeOnContinue(OnContinueClicked);
+			m_ui.UnsubscribeOnReplay(OnReplayClicked);
 		}
 
 		private void OnScoreChanged(int score)
@@ -51,6 +56,26 @@ namespace Scripts.Details
 		private void OnObjectStroke(GameObject obj)
 		{
 			m_profile.strokes++;
+		}
+
+		private void OnContinueClicked()
+		{
+			var nextSceneIdx = (SceneManager.GetActiveScene().buildIndex + 1) % SceneManager.sceneCountInBuildSettings;
+			StartLevel(nextSceneIdx);
+		}
+
+		private void OnReplayClicked()
+		{
+			var index = SceneManager.GetActiveScene().buildIndex;
+			StartLevel(index);
+		}
+
+		public void StartLevel(int index)
+		{
+			m_profile.OnLevelComplete();
+			m_ui.ShowVictory(false);
+
+			SceneManager.LoadScene(index);
 		}
 	}
 }

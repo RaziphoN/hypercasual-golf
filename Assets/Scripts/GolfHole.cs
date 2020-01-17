@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 
 using Scripts.Framework.Audio;
 
@@ -21,7 +20,6 @@ namespace Scripts
 				if (rigid.velocity.magnitude <= maxSpeedOfBall)
 				{
 					Destroy(collision.gameObject);
-					Invoke("OnVictoryEnd", delayBeforeNextLevel);
 					OnVictory();
 				}
 			}
@@ -33,15 +31,6 @@ namespace Scripts
 
 			UserInterface.instance.SetCompletionPercent((float)(Profile.instance.score) / Coin.count); // a little bit hacky too
 			UserInterface.instance.ShowVictory(true); // as well as this code in this class, LMAO
-		}
-
-		private void OnVictoryEnd()
-		{
-			Profile.instance.OnLevelComplete();
-			UserInterface.instance.ShowVictory(false);
-
-			var nextSceneIdx = (SceneManager.GetActiveScene().buildIndex + 1) % SceneManager.sceneCountInBuildSettings;
-			SceneManager.LoadScene(nextSceneIdx);
 		}
 	}
 }

@@ -17,12 +17,13 @@ namespace Scripts
 
 		private RectTransform m_victory;
 		private LayeredLabel m_victoryCoins;
-		private LayeredLabel m_victoryMaxCoins;
 		private LayeredLabel m_victoryStrokes;
 		private StarWidget m_victoryStarWidget;
 
 		private Button m_victoryContinueButton;
 		private Button m_victoryReplayButton;
+
+		private int m_maxScore = 0; // hacky a bit :)
 
 		private void Awake()
 		{
@@ -34,9 +35,8 @@ namespace Scripts
 
 			m_victory = Hierarchy.FindComponentInChildDeep<RectTransform>(gameObject, "victory");
 			m_victoryStarWidget = Hierarchy.FindComponentInChildDeep<StarWidget>(m_victory.gameObject, "stars");
-			m_victoryCoins = Hierarchy.FindComponentInChildDeep<LayeredLabel>(m_victory.gameObject, "coins_value");
-			m_victoryMaxCoins = Hierarchy.FindComponentInChildDeep<LayeredLabel>(m_victory.gameObject, "coins_max_value");
-			m_victoryStrokes = Hierarchy.FindComponentInChildDeep<LayeredLabel>(m_victory.gameObject, "strokes_value");
+			m_victoryCoins = Hierarchy.FindComponentInChildDeep<LayeredLabel>(m_victory.gameObject, "coins");
+			m_victoryStrokes = Hierarchy.FindComponentInChildDeep<LayeredLabel>(m_victory.gameObject, "strokes");
 			m_victoryContinueButton = Hierarchy.FindComponentInChildDeep<Button>(m_victory.gameObject, "continue_btn");
 			m_victoryReplayButton = Hierarchy.FindComponentInChildDeep<Button>(m_victory.gameObject, "replay_btn");
 		}
@@ -78,7 +78,7 @@ namespace Scripts
 
 		public void SetMaxScore(int score)
 		{
-			m_victoryMaxCoins.SetText(score.ToString());
+			m_maxScore = score;
 		}
 
 		public void SetStrokes(int strokes)
@@ -93,8 +93,8 @@ namespace Scripts
 
 			if (show)
 			{
-				m_victoryCoins.SetText(m_ingameCoins.GetText());
-				m_victoryStrokes.SetText(m_ingameStrokes.GetText());
+				m_victoryCoins.SetText("Coins: " + m_ingameCoins.GetText() + " / " + m_maxScore.ToString());
+				m_victoryStrokes.SetText("Strokes: " + m_ingameStrokes.GetText());
 			}
 		}
 	}

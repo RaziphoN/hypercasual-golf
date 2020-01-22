@@ -11,47 +11,46 @@ namespace Scripts.UI
 
 		public string text;
 
-		public Font font;
-		public int fontSize;
+		public TMPro.TMP_FontAsset font;
+		public float fontSize;
 		public bool richText;
 		public bool bestFit;
-		public Vector2Int bestFitSizeConstraint;
-
+		public Vector2 bestFitSizeConstraint;
 		public Vector2 offset;
 
 		public Color layer1Color;
 		public Color layer2Color;
 		public Color layer3Color;
 		
-		[HideInInspector] public Text layer1;
-		[HideInInspector] public Text layer2;
-		[HideInInspector] public Text layer3;
+		[HideInInspector] public TMPro.TextMeshProUGUI layer1;
+		[HideInInspector] public TMPro.TextMeshProUGUI layer2;
+		[HideInInspector] public TMPro.TextMeshProUGUI layer3;
 
 		public void Init()
 		{
 			if (layer1 == null)
 			{
-				layer1 = Hierarchy.FindComponentInChildDeep<Text>(gameObject, "layer_1");
+				layer1 = Hierarchy.FindComponentInChildDeep<TMPro.TextMeshProUGUI>(gameObject, "layer_1");
 			}
 
 			if (layer2 == null)
 			{
-				layer2 = Hierarchy.FindComponentInChildDeep<Text>(gameObject, "layer_2");
+				layer2 = Hierarchy.FindComponentInChildDeep<TMPro.TextMeshProUGUI>(gameObject, "layer_2");
 			}
 
 			if (layer3 == null)
 			{
-				layer3 = Hierarchy.FindComponentInChildDeep<Text>(gameObject, "layer_3");
+				layer3 = Hierarchy.FindComponentInChildDeep<TMPro.TextMeshProUGUI>(gameObject, "layer_3");
 			}
 
 			font = layer1.font;
 			fontSize = layer1.fontSize;
 			text = layer1.text;
-			richText = layer1.supportRichText;
-			bestFit = layer1.resizeTextForBestFit;
+			richText = layer1.richText;
+			bestFit = layer1.enableAutoSizing;
 
-			bestFitSizeConstraint.x = layer1.resizeTextMinSize;
-			bestFitSizeConstraint.y = layer1.resizeTextMaxSize;
+			bestFitSizeConstraint.x = layer1.fontSizeMin;
+			bestFitSizeConstraint.y = layer1.fontSizeMax;
 
 			offset.x = layer1.rectTransform.offsetMax.x;
 			offset.y = layer1.rectTransform.offsetMin.y;
@@ -90,21 +89,21 @@ namespace Scripts.UI
 
 		public void SetBestFit(bool enabled)
 		{
-			layer1.resizeTextForBestFit = enabled;
-			layer2.resizeTextForBestFit = enabled;
-			layer3.resizeTextForBestFit = enabled;
+			layer1.enableAutoSizing = enabled;
+			layer2.enableAutoSizing = enabled;
+			layer3.enableAutoSizing = enabled;
 		}
 
-		public void SetBestFitConstraints(Vector2Int constraints)
+		public void SetBestFitConstraints(Vector2 constraints)
 		{
-			layer1.resizeTextMinSize = constraints.x;
-			layer1.resizeTextMaxSize = constraints.y;
+			layer1.fontSizeMin = constraints.x;
+			layer1.fontSizeMax = constraints.y;
 
-			layer2.resizeTextMinSize = constraints.x;
-			layer2.resizeTextMaxSize = constraints.y;
+			layer2.fontSizeMin = constraints.x;
+			layer2.fontSizeMax = constraints.y;
 
-			layer3.resizeTextMinSize = constraints.x;
-			layer3.resizeTextMaxSize = constraints.y;
+			layer3.fontSizeMin = constraints.x;
+			layer3.fontSizeMax = constraints.y;
 		}
 
 		public void SetOffset(float horizontal, float vertical)
@@ -113,14 +112,14 @@ namespace Scripts.UI
 			SetLayerOffset(layer2, horizontal, vertical);
 		}
 
-		public void SetFont(Font font)
+		public void SetFont(TMPro.TMP_FontAsset font)
 		{
 			layer1.font = font;
 			layer2.font = font;
 			layer3.font = font;
 		}
 
-		public void SetFontSize(int size)
+		public void SetFontSize(float size)
 		{
 			layer1.fontSize = size;
 			layer2.fontSize = size;
@@ -129,9 +128,9 @@ namespace Scripts.UI
 
 		public void SetRichText(bool enabled)
 		{
-			layer1.supportRichText = enabled;
-			layer2.supportRichText = enabled;
-			layer3.supportRichText = enabled;
+			layer1.richText = enabled;
+			layer2.richText = enabled;
+			layer3.richText = enabled;
 		}
 
 		public void SetText(string text)
@@ -191,7 +190,7 @@ namespace Scripts.UI
 			return 3;
 		}
 
-		private void SetLayerOffset(Text layer, float horizontal, float vertical)
+		private void SetLayerOffset(TMPro.TextMeshProUGUI layer, float horizontal, float vertical)
 		{
 			var horOffset = layer.rectTransform.offsetMax;
 			horOffset.x = horizontal;
